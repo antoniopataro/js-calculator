@@ -158,7 +158,6 @@ body {
   width: 100%;
   text-align: end;
   overflow: scroll;
-  /* direction: rtl; */
 }
 
 ::-webkit-scrollbar {
@@ -168,6 +167,9 @@ body {
 
 #main #sub-display {
   font-size: 16px;
+  width: 100%;
+  text-align: right;
+  overflow: scroll;
 }
 
 #footer {
