@@ -59,7 +59,12 @@ function handleSpecial(special) {
       return;
     }
     case "Backspace": {
-      equation = equation.slice(0, -2);
+      if (!display.innerText) return;
+
+      equation = equation.slice(0, -1);
+      display.innerText = display.innerText.slice(0, -1);
+      subDisplay.innerText = subDisplay.innerText.slice(0, -1);
+
       return;
     }
     default:
