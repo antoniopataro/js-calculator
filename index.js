@@ -5,6 +5,7 @@ const display = document.getElementById("display");
 const subDisplay = document.getElementById("sub-display");
 
 const operators = ["/", "*", "-", "+"];
+const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
 var equation = "";
 
@@ -39,6 +40,8 @@ function handleSpecial(special) {
       return;
     }
     case "Invert": {
+      if (!display.innerText) return;
+
       equation =
         equation.split(" ").slice(0, -1).join(" ") +
         " " +
@@ -49,6 +52,8 @@ function handleSpecial(special) {
       return;
     }
     case "Percentage": {
+      if (!display.innerText) return;
+
       equation =
         equation.split(" ").slice(0, -1).join(" ") +
         " " +
@@ -73,9 +78,9 @@ function handleSpecial(special) {
 }
 
 function calculate() {
-  const result = eval(equation);
+  if (!equation) return;
 
-  display.innerText = result;
+  display.innerText = eval(equation);
 }
 
 function handleTheme() {
@@ -162,3 +167,46 @@ function changeColors() {
     button.classList.contains("operator") ? (button.style.color = "red") : "";
   });
 }
+
+function handleKeyboardInput(e) {
+  const key = e.key;
+  const ctrl = e.ctrlKey;
+  const shift = e.shiftKey;
+
+  if (numbers.includes(key)) {
+    handleValue(key);
+    return;
+  }
+
+  if (operators.includes(key)) {
+    handleOperator(key);
+    return;
+  }
+
+  if (ctrl && key === "Backspace") {
+    handleSpecial("AllClear");
+    return;
+  }
+
+  if ((shift && key === "-") || key === "_") {
+    handleSpecial("Invert");
+    return;
+  }
+
+  if (key === "Backspace") {
+    handleSpecial("Backspace");
+    return;
+  }
+
+  if (key === "%") {
+    handleSpecial("Percentage");
+    return;
+  }
+
+  if (key === "Enter") {
+    calculate();
+    return;
+  }
+}
+
+document.addEventListener("keydown", handleKeyboardInput);
