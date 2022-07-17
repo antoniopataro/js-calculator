@@ -14,14 +14,18 @@ function handleValue(value) {
 
   display.innerText += value;
   subDisplay.innerText += value;
+
+  subDisplayDesign();
 }
 
 function handleOperator(operator) {
-  const lastDigit = equation.split(" ").slice(0, -1);
+  const lastOperator = equation.split(" ").slice(0, -1)[equation.split(" ").slice(0, -1).length - 1];
+  const lastDigit = equation[equation.length - 1];
 
-  if (lastDigit === "/" || lastDigit === "*" || lastDigit === "-" || lastDigit === "+") {
+  if (operators.includes(lastOperator) && !numbers.includes(lastDigit)) {
     equation = equation.slice(0, -3) + " " + operator + " ";
     subDisplay.innerText = subDisplay.innerText.slice(0, -3) + " " + operator + " ";
+    subDisplayDesign();
     return;
   }
 
@@ -29,6 +33,8 @@ function handleOperator(operator) {
 
   display.innerText = "";
   subDisplay.innerText += " " + operator + " ";
+
+  subDisplayDesign();
 }
 
 function handleSpecial(special) {
@@ -75,6 +81,8 @@ function handleSpecial(special) {
     default:
       return;
   }
+
+  subDisplayDesign();
 }
 
 function calculate() {
@@ -113,6 +121,8 @@ function changeColors() {
   const activeButtons = document.querySelectorAll(".active");
   const inactiveButtons = document.querySelectorAll(".inactive");
 
+  const subDisplayOperator = document.querySelectorAll(".sub-display-operator");
+
   if (isThemeDark) {
     body.style.backgroundColor = "#22252d";
     calculator.style.backgroundColor = "#22252d";
@@ -137,6 +147,10 @@ function changeColors() {
       button.style.color = "white";
       button.classList.contains("special") ? (button.style.color = "#60dcc9") : "";
       button.classList.contains("operator") ? (button.style.color = "#a9585d") : "";
+    });
+
+    subDisplayOperator.forEach((operator) => {
+      operator.style.color = "#a9585d";
     });
 
     return;
@@ -165,6 +179,10 @@ function changeColors() {
     button.style.color = "black";
     button.classList.contains("special") ? (button.style.color = "green") : "";
     button.classList.contains("operator") ? (button.style.color = "red") : "";
+  });
+
+  subDisplayOperator.forEach((operator) => {
+    operator.style.color = "red";
   });
 }
 
@@ -210,3 +228,21 @@ function handleKeyboardInput(e) {
 }
 
 document.addEventListener("keydown", handleKeyboardInput);
+
+function subDisplayDesign() {
+  subDisplay.innerText = subDisplay.innerText.replace("*", "×");
+  subDisplay.innerText = subDisplay.innerText.replace("/", "÷");
+
+  const subDisplayCopy = subDisplay.innerText;
+
+  subDisplay.innerText = "";
+
+  subDisplayCopy.split("").map((char) => {
+    if (operators.includes(char) || char === "×" || char === "÷") {
+      subDisplay.innerHTML += "<span class='sub-display-operator' style='color: #a9585d'>" + char + "</span>";
+      return;
+    }
+    subDisplay.innerHTML += char;
+    return;
+  });
+}
