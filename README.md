@@ -1,4 +1,4 @@
-![Desktop - 1](https://user-images.githubusercontent.com/87823281/178759906-79d860c5-0dbf-45cb-9a39-b2dbddaced30.png)
+https://user-images.githubusercontent.com/87823281/180572979-6b82fe57-3b25-4787-9e2b-135737162063.mp4
 
 # 🧮 ️JS-Calculator
 
